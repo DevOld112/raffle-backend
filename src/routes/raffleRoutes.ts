@@ -5,6 +5,7 @@ import { authenticate } from '../middleware/auth';
 import { RaffleController } from '../controllers/raffleController';
 import { raffleExists } from '../middleware/raffle';
 import { TicketController } from '../controllers/ticketController';
+import { ticketBelongsToRaffle, ticketExists } from '../middleware/ticket';
 
 const router = Router()
 router.use(authenticate)
@@ -74,6 +75,16 @@ router.post('/:raffleId/ticket',
 router.get('/:raffleId/ticket', 
     param('raffleId').isMongoId().withMessage('ID no Valido'),
     handleInputErrors,
-    TicketController.getTicketsByRaffle)
+    TicketController.getTicketsByRaffle
+)
+
+router.param('ticketId', ticketExists)
+router.param('tickerId', ticketBelongsToRaffle)
+
+router.delete('/:raffleId/ticket/:ticketId',
+    param('ticketId').isMongoId().withMessage('ID no Valido'),
+    handleInputErrors,
+    TicketController.deleteTicket
+)
 
 export default router;

@@ -47,4 +47,25 @@ export class TicketController {
         }
     }
 
+    static deleteTicket = async(req: Request, res: Response) => {
+        try {
+
+            console.log(req.raffle)
+
+            
+
+            req.raffle.tickets = req.raffle.tickets.filter(ticket => ticket._id.toString() !== req.ticket.id.toString())
+
+            req.raffle.totalAmount -= req.ticket.quantity * req.raffle.price; 
+            req.raffle.availableQuantity += req.ticket.quantity; 
+
+            await Promise.allSettled([req.ticket.deleteOne(), req.raffle.save()])
+            
+            return res.status(200).send('Ticket Rechazado')
+
+        } catch (error) {
+            res.status(500).json({error: 'Hubo un error en la obtencion de los tickets'})
+        }
+    }
+
 }

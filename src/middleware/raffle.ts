@@ -4,7 +4,7 @@ import Raffle, { IRaffle } from '../models/Raffle'
 declare global {
     namespace Express {
         interface Request {
-            raffle: IRaffle
+            raffle?: IRaffle
         }
     }
 }
@@ -14,7 +14,7 @@ export async function raffleExists(req: Request, res: Response, next: NextFuncti
         const { raffleId } = req.params
         const raffle = await Raffle.findById(raffleId)
         if(!raffle){
-            const error = new Error('Proyecto No Encontrado')
+            const error = new Error('Sorteo No Encontrado')
             return res.status(404).json({error: error.message})
         }
 

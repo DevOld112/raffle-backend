@@ -28,7 +28,7 @@ export async function ticketExists(req: Request, res: Response, next: NextFuncti
 }
 
 export async function ticketBelongsToRaffle(req: Request, res: Response, next: NextFunction){
-                //Valido que la tarea pertenece a ese proyecto
+                //Valido que el ticket pertenece a ese sorteo
 
                 if(req.ticket.raffle.toString() !== req.raffle.id.toString()){
                     const error = new Error('Accion no valida')
