@@ -21,10 +21,9 @@ const RaffleSchema: Schema = new Schema({
         required: true,
 
     },
-    date:{
+    endDate:{
         type: String,
         required: true,
-        default: Date.now()
 
     },
     description:{

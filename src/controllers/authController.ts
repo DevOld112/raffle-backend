@@ -1,4 +1,4 @@
-import type { Request, Response } from "express"
+import type { Request, RequestParamHandler, Response } from "express"
 import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateJWT } from "../utils/jwt"
@@ -66,6 +66,32 @@ export class AuthController {
         } catch (error) {
             res.status(500).json({error: 'Hubo un Error'})
         }
+    }
+
+    static paymentData = async(req: Request, res: Response) =>{
+
+        try {
+            const { accountBank, binanceID, phone } = req.body
+            const updateUser = await User.findById(req.user.id)
+    
+            if (!updateUser) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            updateUser.accountBank = accountBank;
+            updateUser.binanceID = binanceID;
+            updateUser.phone = phone;
+    
+            await updateUser.save()
+
+            res.status(200).send('Datos de pago Actualizado Correctamente')
+            
+        } catch (error) {
+            res.status(500).json({error: 'Hubo un Error'})
+        }
+        
+
+
     }
 
     static user = async(req: Request, res: Response) => {

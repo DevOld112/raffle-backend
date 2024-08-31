@@ -40,4 +40,8 @@ router.get('/user',
     AuthController.user
 )
 
+router.post('/payment',
+    authenticate,
+    AuthController.paymentData)
+
 export default router;

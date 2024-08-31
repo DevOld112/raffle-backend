@@ -26,9 +26,9 @@ export class RaffleController {
         }
     }
 
-    //Obtener todos los sorteos
+    //Obtener todos los sorteos del usuario
 
-    static getRaffles = async(req: Request, res: Response) => {
+    static getRafflesByUser = async(req: Request, res: Response) => {
         try {
             
             const raffles = await Raffle.find({
@@ -44,6 +44,19 @@ export class RaffleController {
         }
     }
 
+    //Obtener todos los sorteos sin distincion
+
+    static getAllRaffles = async(req: Request, res: Response) => {
+        try {
+            const raffles = await Raffle.find()
+
+            res.status(200).json(raffles)
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({error: 'Hubo un error'})
+        }
+    }
+
     //Obtener un Sorteo en especifico
 
     static getRaffleById = async(req: Request, res: Response) => {
@@ -52,8 +65,10 @@ export class RaffleController {
             const { id } = req.params
             const raffle = await Raffle.findById(id)
 
+
             if(!raffle){
                 const error = new Error('Sorteo No Encontrado')
+                
                 return res.status(404).json({error: error.message})
             }
 
@@ -61,12 +76,45 @@ export class RaffleController {
 
             if(raffle.admin.toString() !== req.user.id.toString()){
                 const error = new Error('Accion no Valida')
+                
                 return res.status(404).json({error: error.message})
             }
 
             res.status(200).json(raffle)
 
         } catch (error) {
+            console.log(error)
+            res.status(500).json({error: 'Hubo un error'})
+        }
+        
+        
+
+
+    }
+
+    //Obtener sorteo por ID public
+
+    static getPublicRaffleById = async(req: Request, res: Response) => {
+
+        try {
+            const { id } = req.params
+            const raffle = await Raffle.findById(id)
+
+
+            if(!raffle){
+                const error = new Error('Sorteo No Encontrado')
+                
+                return res.status(404).json({error: error.message})
+            }
+
+            
+
+
+
+            res.status(200).json(raffle)
+
+        } catch (error) {
+            console.log(error)
             res.status(500).json({error: 'Hubo un error'})
         }
         

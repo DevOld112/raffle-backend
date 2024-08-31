@@ -8,6 +8,8 @@ import { TicketController } from '../controllers/ticketController';
 import { ticketBelongsToRaffle, ticketExists } from '../middleware/ticket';
 
 const router = Router()
+
+
 router.use(authenticate)
 
 router.post('/create-raffle',
@@ -23,13 +25,14 @@ router.post('/create-raffle',
     RaffleController.createRaffle
 )
 
-router.get('/allRaffles', RaffleController.getRaffles)
+router.get('/allRafflesByUser', RaffleController.getRafflesByUser)
 
 router.get('/:id',
     param('id').isMongoId().withMessage('ID no Valido'),
     handleInputErrors,
     RaffleController.getRaffleById
 )
+
 
 router.put('/:id',
     param('id').isMongoId().withMessage('ID no Valido'),
@@ -53,24 +56,6 @@ router.delete('/:id',
 
 router.param('raffleId', raffleExists)
 
-router.post('/:raffleId/ticket', 
-    body('document')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    body('name')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    body('email')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    body('phone')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    body('address')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    body('quantity')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    body('paymentReference')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    handleInputErrors,
-    TicketController.createTicket
-)
 
 router.get('/:raffleId/ticket', 
     param('raffleId').isMongoId().withMessage('ID no Valido'),

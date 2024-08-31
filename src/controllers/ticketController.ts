@@ -1,12 +1,15 @@
 import type { Request, Response } from 'express'
 import  Ticket  from '../models/Ticket'
 
+
+
 export class TicketController {
 
     static createTicket = async (req: Request, res: Response) => {
         try {
 
-            const { quantity, document, name, email, phone, address, paymentReference } = req.body;
+        const { quantity, document, name, email, phone, address, paymentReference } = req.body;
+
         const totalTicketPrice = req.raffle.price * quantity;
 
         const ticket = new Ticket({
@@ -19,6 +22,8 @@ export class TicketController {
             quantity,
             paymentReference
         });
+        
+
 
         // Guarda el ticket en la base de datos
 
@@ -30,6 +35,7 @@ export class TicketController {
         req.raffle.totalAmount += totalTicketPrice; 
         req.raffle.availableQuantity -= quantity;  
         await req.raffle.save();
+
 
         res.status(200).json(ticket);
     } catch (error) {
@@ -49,10 +55,6 @@ export class TicketController {
 
     static deleteTicket = async(req: Request, res: Response) => {
         try {
-
-            console.log(req.raffle)
-
-            
 
             req.raffle.tickets = req.raffle.tickets.filter(ticket => ticket._id.toString() !== req.ticket.id.toString())
 
