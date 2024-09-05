@@ -5,6 +5,7 @@ export interface IUser extends Document {
     password: string
     name: string
     confirmed: boolean
+    bankEntity: string
     accountBank: string
     binanceID: string
     phone: string
@@ -30,6 +31,9 @@ const userSchema: Schema = new Schema({
     confirmed: {
         type: Boolean,
         default: true
+    },
+    bankEntity:{
+        type: String
     },
     accountBank:{
         type: String

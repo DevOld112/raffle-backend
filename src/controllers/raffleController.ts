@@ -11,9 +11,13 @@ export class RaffleController {
 
         const raffle = new Raffle(req.body)
 
-        //Asigna a un Usuario Administrador el sorteo
+        //Asigna a un Usuario Administrador el sorteo y su cuenta bancaria
 
         raffle.admin = req.user.id
+        raffle.accountBank = req.user.accountBank
+        raffle.bankEntity = req.user.bankEntity
+        raffle.phone = req.user.phone
+        raffle.binanceID = req.user.binanceID
 
         try {
             await raffle.save()

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, mongo, PopulatedDoc, Types} from 'mongoose'
+import mongoose, { Schema, Document, PopulatedDoc, Types} from 'mongoose'
 import { IUser } from "./User";
 import { ITicket } from './Ticket';
 
@@ -10,9 +10,14 @@ export interface IRaffle extends Document {
     quantity: number
     admin: PopulatedDoc<IUser & Document>
     tickets: PopulatedDoc<ITicket & Document>[]
+    bankEntity: string
+    accountBank: string
+    binanceID: string
+    phone: string
     price: number
     availableQuantity: number
-    totalAmount: number     
+    totalAmount: number
+    purchasedTickets: number   
 }
 
 const RaffleSchema: Schema = new Schema({
@@ -45,6 +50,22 @@ const RaffleSchema: Schema = new Schema({
         type: Types.ObjectId,
         ref: 'User'
     },
+    bankEntity:{
+        type: String,
+        ref: 'User'
+    },
+    accountBank:{
+        type: String,
+        ref: 'User'
+    },
+    binanceID:{
+        type: String,
+        ref: 'User'
+    },
+    phone:{
+        type: String,
+        ref: 'User'
+    },
     tickets: [
         {
             type: Types.ObjectId,
@@ -67,6 +88,10 @@ const RaffleSchema: Schema = new Schema({
         required: true,
         default: 0,         
     },
+    purchasedTickets:{
+        type: Number,
+        default: 0
+    }
     
 }, {timestamps: true})
 

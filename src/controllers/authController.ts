@@ -71,13 +71,14 @@ export class AuthController {
     static paymentData = async(req: Request, res: Response) =>{
 
         try {
-            const { accountBank, binanceID, phone } = req.body
+            const { bankEntity, accountBank, binanceID, phone } = req.body
             const updateUser = await User.findById(req.user.id)
     
             if (!updateUser) {
                 return res.status(404).json({ message: 'User not found' });
             }
 
+            updateUser.bankEntity = bankEntity;
             updateUser.accountBank = accountBank;
             updateUser.binanceID = binanceID;
             updateUser.phone = phone;
@@ -90,9 +91,9 @@ export class AuthController {
             res.status(500).json({error: 'Hubo un Error'})
         }
         
-
-
     }
+
+    
 
     static user = async(req: Request, res: Response) => {
 

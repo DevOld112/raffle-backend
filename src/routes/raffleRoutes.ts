@@ -72,4 +72,10 @@ router.delete('/:raffleId/ticket/:ticketId',
     TicketController.deleteTicket
 )
 
+router.post('/:raffleId/ticket/:ticketId',
+    param('ticketId').isMongoId().withMessage('ID no Valido'),
+    handleInputErrors,
+    TicketController.acceptTicket
+)
+
 export default router;

@@ -2,7 +2,6 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 
 const ticketStatus = {
     PENDING: 'pending',
-    REJECTED: 'rejected',
     COMPLETED: 'completed'
 } as const;
 
@@ -17,6 +16,8 @@ export interface ITicket extends Document {
     address: string
     quantity: number
     paymentReference: string
+    status: string
+    ticketNumber: number[]
     
 }
 
@@ -64,6 +65,11 @@ export const ticketSchema:Schema = new Schema({
         type: String,
         enum: Object.values(ticketStatus),
         default: ticketStatus.PENDING
+    },
+    ticketNumber: {
+        type:  [{ type: Number }],
+        default: []
+
     }
 }, {timestamps: true})
 

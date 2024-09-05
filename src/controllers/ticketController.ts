@@ -55,18 +55,40 @@ export class TicketController {
 
     static deleteTicket = async(req: Request, res: Response) => {
         try {
-
             req.raffle.tickets = req.raffle.tickets.filter(ticket => ticket._id.toString() !== req.ticket.id.toString())
 
             req.raffle.totalAmount -= req.ticket.quantity * req.raffle.price; 
             req.raffle.availableQuantity += req.ticket.quantity; 
+            req.raffle.purchasedTickets -= req.ticket.quantity;
 
             await Promise.allSettled([req.ticket.deleteOne(), req.raffle.save()])
             
             return res.status(200).send('Ticket Rechazado')
 
         } catch (error) {
-            res.status(500).json({error: 'Hubo un error en la obtencion de los tickets'})
+            res.status(500).json({error: 'Hubo un error en la eliminacion de los tickets'})
+        }
+    }
+
+    static acceptTicket = async (req: Request, res: Response) => {
+        try {
+            
+        req.ticket.status = 'completed'
+        
+        req.raffle.purchasedTickets += req.ticket.quantity
+
+        for(let i = req.raffle.purchasedTickets - req.ticket.quantity; i < req.raffle.purchasedTickets; i++){
+            req.ticket.ticketNumber.push(i)
+        }
+
+
+        await Promise.allSettled([req.raffle.save(), req.ticket.save()]);
+
+        
+        res.status(200).json({message: 'Ticket accepted successfully', ticket: req.ticket});
+
+        } catch (error) {
+            res.status(500).json({error: 'Hubo un error en la aceptacion de los tickets'})
         }
     }
 
