@@ -92,4 +92,24 @@ export class TicketController {
         }
     }
 
+    static changeTicketNumber = async(req: Request, res: Response) => {
+
+        try {
+            req.ticket.ticketNumber = req.body
+
+            for(let i = 0; i < req.ticket.ticketNumber.length; i++){
+                if(req.ticket.ticketNumber[i] >= 1000){
+                    return res.status(400).json({error: 'El numero de ticket sobrepasa el numero'})
+                }
+            }
+
+            await Promise.allSettled([req.raffle.save(), req.ticket.save()])
+            res.status(200).json({message: 'Ticket accepted successfully', ticket: req.ticket});
+        } catch (error) {
+            res.status(500).json({error: 'Hubo un error en la aceptacion de los tickets'})
+        }
+        
+        
+    }
+
 }

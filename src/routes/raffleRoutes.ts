@@ -78,4 +78,10 @@ router.post('/:raffleId/ticket/:ticketId',
     TicketController.acceptTicket
 )
 
+router.post('/:raffleId/ticket/:ticketId/ticketsNumbers',
+    param('ticketId').isMongoId().withMessage('ID no Valido'),
+    handleInputErrors,
+    TicketController.changeTicketNumber
+)
+
 export default router;

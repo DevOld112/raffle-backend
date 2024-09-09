@@ -68,7 +68,13 @@ export const ticketSchema:Schema = new Schema({
     },
     ticketNumber: {
         type:  [{ type: Number }],
-        default: []
+        default: [],
+        validate: {
+            validator: function(numbers: number[]){
+                return numbers.length === new Set(numbers).size
+            },
+            message: 'No se puede asignar el mismo numero dos veces'
+        }
 
     }
 }, {timestamps: true})
