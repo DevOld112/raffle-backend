@@ -1,5 +1,20 @@
 import { CorsOptions } from "cors";
 
+export const corsConfig: CorsOptions = {
+    origin: function (origin, callback) {
+        
+        callback(null, true);
+    },
+    credentials: true,  
+};
+
+
+
+/**
+Reparar LUEGO
+
+import { CorsOptions } from "cors";
+
 export const corsConfig : CorsOptions = {
     origin: function(origin, callback){
 
@@ -16,3 +31,6 @@ export const corsConfig : CorsOptions = {
         }
     }
 }
+
+
+ */
