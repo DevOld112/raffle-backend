@@ -21,15 +21,13 @@ router.param('raffleId', raffleExists)
 
 router.post('/:raffleId/ticket', 
     body('document')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
+        .notEmpty().withMessage('El numero del documento es Obligatorio'),
     body('name')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
+        .notEmpty().withMessage('El Nombre de la persona es Obligatorio'),
     body('email')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
+        .notEmpty().withMessage('El numero de telefono es Obligatorio'),
     body('phone')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
-    body('address')
-        .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
+        .notEmpty().withMessage('La cantidad es Obligatoria'),
     body('quantity')
         .notEmpty().withMessage('El Nombre de la tarea es Obligatorio'),
     body('paymentReference')

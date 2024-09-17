@@ -77,7 +77,7 @@ const RaffleSchema: Schema = new Schema({
         type: Number,
         required: true,
         default: 1000,
-        min: [0,  'La cantidad disponible no puede ser menor a 1']   
+        min: 0 
     },
     price: {
         type: Number,

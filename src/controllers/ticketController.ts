@@ -8,7 +8,7 @@ export class TicketController {
     static createTicket = async (req: Request, res: Response) => {
         try {
 
-        const { quantity, document, name, email, phone, address, paymentReference } = req.body;
+        const { quantity, document, name, email, phone, paymentReference } = req.body;
 
         const totalTicketPrice = req.raffle.price * quantity;
 
@@ -18,11 +18,15 @@ export class TicketController {
             name,
             email,
             phone,
-            address,
             quantity,
             paymentReference
         });
+
+
         
+        if(ticket.quantity > req.raffle.availableQuantity){
+            return res.status(400).send('Cantidad a comprar es mayor a la disponible')
+        }
 
 
         // Guarda el ticket en la base de datos
@@ -37,10 +41,10 @@ export class TicketController {
         await req.raffle.save();
 
 
-        res.status(200).json(ticket);
+        return res.status(200).send('Ticket Creado Correctamente');
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: 'Hubo un error al comprar el ticket' });
+        res.status(500).send('Hubo un error intente de nuevo');
     }
 }
 
@@ -59,7 +63,7 @@ export class TicketController {
 
             req.raffle.totalAmount -= req.ticket.quantity * req.raffle.price; 
             req.raffle.availableQuantity += req.ticket.quantity; 
-            req.raffle.purchasedTickets -= req.ticket.quantity;
+            
 
             await Promise.allSettled([req.ticket.deleteOne(), req.raffle.save()])
             

@@ -49,7 +49,7 @@ export const ticketSchema:Schema = new Schema({
     address: {
         type: String,
         trim: true,
-        required: true
+        default: ''
     },
     quantity: {
         type: Number,
