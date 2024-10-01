@@ -41,7 +41,7 @@ export class TicketController {
         await req.raffle.save();
 
 
-        return res.status(200).send('Ticket Creado Correctamente');
+        return res.status(200).send('Compra Exitosa. Se enviara un mensaje con sus numeros de Rifa en unos minutos');
     } catch (error) {
         console.log(error)
         res.status(500).send('Hubo un error intente de nuevo');
