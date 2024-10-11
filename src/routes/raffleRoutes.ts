@@ -84,4 +84,9 @@ router.post('/:raffleId/ticket/:ticketId/ticketsNumbers',
     TicketController.changeTicketNumber
 )
 
+router.get('/:raffleId/ticket/:ticketId/detail',
+    handleInputErrors,
+    TicketController.getTicketById
+)
+
 export default router;
